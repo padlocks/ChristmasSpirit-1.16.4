@@ -1,3 +1,8 @@
+Build: 1.16.4-35.0.8 - Sun Oct 25 11:02:44 GMT 2021
+	padlocks:
+		Fixes wrapping presents from crashing the client when FakeName is present by removing formatting codes from player names internally.
+
+=========
 Build: 1.16.4-35.0.7 - Sun Nov 08 04:12:02 GMT 2020
 	cpw:
 		Some help in ExtensionPoint regarding DISPLAYTEST. Let's improve those tick rates!

@@ -18,6 +18,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ScreenPresentUnwrapped extends ContainerScreenBase<ContainerPresentUnwrapped> {
 
     private final TileEntityPresentUnwrapped present;
@@ -89,7 +92,12 @@ public class ScreenPresentUnwrapped extends ContainerScreenBase<ContainerPresent
 
         if (isPresentReady()) {
             closeScreen();
-            constructor.setFromPlayerName(player.getDisplayName().getString());
+
+            Pattern pattern = Pattern.compile("[\u00A7].");
+            Matcher matcher = pattern.matcher(player.getDisplayName().getString());
+            String cleanedString = matcher.replaceAll("");
+
+            constructor.setFromPlayerName(cleanedString);
             constructor.setToPlayerName(toPlayerNameField.getText());
             ChristmasSpirit.network.sendToServer(new PacketWrapPresent(constructor, present.getPos()));
             player.playSound(InitSounds.PRESENT_WRAP.get(), 1, 1);

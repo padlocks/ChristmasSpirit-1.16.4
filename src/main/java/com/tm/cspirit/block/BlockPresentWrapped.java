@@ -30,6 +30,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BlockPresentWrapped extends BlockPresentUnwrapped {
 
@@ -92,6 +94,9 @@ public class BlockPresentWrapped extends BlockPresentUnwrapped {
             if (tileEntity instanceof TileEntityPresentWrapped) {
 
                 TileEntityPresentWrapped present = (TileEntityPresentWrapped) tileEntity;
+                Pattern pattern = Pattern.compile("[\u00A7].");
+                Matcher matcher = pattern.matcher(player.getDisplayName().getString());
+                String cleanedString = matcher.replaceAll("");
 
                 if (player.isCrouching()) {
                     present.getUnitName(player).printMessage(TextFormatting.WHITE, "From: " + present.getConstructor().getFromPlayerName());
@@ -99,7 +104,7 @@ public class BlockPresentWrapped extends BlockPresentUnwrapped {
                     present.getUnitName(player).printMessage(TextFormatting.WHITE, "Open on the " + TimeHelper.getFormattedDay(present.getConstructor().getActualDay()));
                 }
 
-                else if (player.getDisplayName().getString().equalsIgnoreCase(present.getConstructor().getToPlayerName()) || present.getConstructor().getToPlayerName().equalsIgnoreCase("anybody")) {
+                else if (cleanedString.equalsIgnoreCase(present.getConstructor().getToPlayerName()) || present.getConstructor().getToPlayerName().equalsIgnoreCase("anybody")) {
 
                     if (TimeHelper.getCurrentDay() >= present.getConstructor().getActualDay()) {
 
